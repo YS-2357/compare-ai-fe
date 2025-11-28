@@ -35,7 +35,7 @@ DAILY_USAGE_LIMIT=3
 1) 사이드바에서 FastAPI Base URL 입력 (예: `https://.../api/ask` 없이 베이스 주소)  
 2) 이메일/비밀번호로 회원가입 또는 로그인 → 토큰 자동 저장  
 3) 질문 입력 후 “질문하기” 클릭 → 모델별 partial 이벤트와 summary 표시  
-4) 응답 헤더 `X-Usage-Limit`/`X-Usage-Remaining`을 읽어 남은 횟수 동기화  
+4) 응답 헤더 `X-Usage-Limit`/`X-Usage-Remaining`을 읽어 남은 횟수 동기화 (기본 일일 한도 3회, Upstash 장애 시에도 로컬 캐시로 3회 제한 유지)  
 5) 필요하면 `x-admin-bypass` 토글 후 관리자 토큰으로 우회 가능
 
 ## 📁 프로젝트 구조
@@ -61,3 +61,7 @@ runtime.txt               # Python 버전 고정(선택)
 - FastAPI 백엔드가 실행 중인지 확인
 - `.env`에 `FASTAPI_URL`을 넣어두면 자동 로드
 - 헤더로 내려오는 사용량 정보가 UI에 반영되는지 확인
+
+## ⚠️ 알려진 이슈
+
+- 재로그인 직후 초기 화면에서 남은 횟수가 항상 3으로 보일 수 있습니다(실제 백엔드 제한은 Upstash/캐시에 따라 정상 적용). `/api/ask` 호출 후 응답 헤더/summary 값으로 동기화되며, 초기 표시를 즉시 서버 값으로 맞추는 패치를 예정 중입니다.

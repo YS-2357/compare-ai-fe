@@ -1,4 +1,4 @@
-# Docs Overview (updated 2025-11-26 for BE/FE split & deploy readiness)
+# Docs Overview (updated 2025-11-28 for BE/FE split & deploy readiness)
 
 | 구분 | 설명 | 바로가기 |
 | --- | --- | --- |
@@ -7,5 +7,5 @@
 | 로드맵 | 연간 계획/우선순위 | [development/roadmap-2025.md](development/roadmap-2025.md) |
 
 ## 빠른 링크
-- 최근 변경 로그: [2025-11-26](changelog/2025-11-26.md)
-- 최근 개발 로그: [2025-11-26](development/2025-11-26.md)
+- 최근 변경 로그: [2025-11-28](changelog/2025-11-28.md)
+- 최근 개발 로그: [2025-11-28](development/2025-11-28.md)
