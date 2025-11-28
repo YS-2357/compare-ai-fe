@@ -31,7 +31,12 @@ def _load_base_url() -> str:
 
 
 def _get_admin_token() -> str:
-    return st.session_state.get("admin_token") or os.getenv("ADMIN_BYPASS_TOKEN", "") or st.secrets.get("ADMIN_BYPASS_TOKEN", "")
+    # 환경변수에 있어도 UI에 노출되지 않도록 세션 값만 사용
+    return st.session_state.get("admin_token", "")
+
+
+def _get_admin_env_token() -> str:
+    return os.getenv("ADMIN_BYPASS_TOKEN", "") or st.secrets.get("ADMIN_BYPASS_TOKEN", "")
 
 
 def _get_usage_limit() -> str:
@@ -189,8 +194,20 @@ def main() -> None:
         headers = {"Content-Type": "application/json"}
         if token := st.session_state.get("auth_token"):
             headers["Authorization"] = token
-        if st.session_state.get("use_admin_bypass") and (admin_token := st.session_state.get("admin_token")):
-            headers["x-admin-bypass"] = admin_token
+
+        # 관리자 우회 토큰 검증: 환경/secret에 설정된 값과 일치할 때만 헤더 추가
+        admin_env = _get_admin_env_token()
+        admin_input = st.session_state.get("admin_token")
+        allow_admin = False
+        if st.session_state.get("use_admin_bypass"):
+            if admin_env and admin_input and admin_input == admin_env:
+                allow_admin = True
+            elif admin_input:
+                st.warning("관리자 우회 토큰이 일치하지 않아 일반 요청으로 진행합니다.")
+            elif not admin_env:
+                st.warning("서버에 관리자 우회 토큰이 설정되지 않아 우회할 수 없습니다.")
+        if allow_admin:
+            headers["x-admin-bypass"] = admin_input
         with st.spinner("질문 보내는 중..."):
             try:
                 answers_acc: dict[str, str] = {}

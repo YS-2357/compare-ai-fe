@@ -11,6 +11,5 @@ streamlit run app/ui/streamlit_app.py
 
 환경변수:
 - `FASTAPI_URL` (예: https://<render-be>.onrender.com)
-- `ADMIN_BYPASS_TOKEN` (옵션)
+- `ADMIN_BYPASS_TOKEN` (옵션, 입력값이 환경/secret의 토큰과 일치할 때만 우회 적용)
 - `STREAMLIT_SERVER_HEADLESS=true` (Render 등 배포 시)
-
