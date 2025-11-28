@@ -53,8 +53,7 @@ runtime.txt               # Python 버전 고정(선택)
 
 ## ✏️ 문서
 
-- 변경 로그: `docs/changelog/`
-- 개발 로그/로드맵: `docs/development/`
+- FE는 별도 문서를 두지 않고, 백엔드 레포(`compare-ai-be/docs`)의 changelog/development를 공용으로 사용합니다.
 
 ## 🧪 체크리스트
 
