@@ -135,6 +135,9 @@ def main() -> None:
         st.session_state["usage_remaining"] = _usage_limit_int()
     if "chat_log" not in st.session_state:
         st.session_state["chat_log"] = []
+    # 우회 토글이 남아있지 않도록 기본값 보정
+    if "use_admin_bypass" not in st.session_state:
+        st.session_state["use_admin_bypass"] = False
     if user := st.session_state.get("auth_user"):
         st.caption(f"로그인됨: {user.get('email')}")
     remaining = st.session_state.get("usage_remaining", _usage_limit_int())
@@ -144,6 +147,8 @@ def main() -> None:
         st.session_state.pop("auth_user", None)
         st.session_state.pop("usage_remaining", None)
         st.session_state.pop("chat_log", None)
+        st.session_state.pop("use_admin_bypass", None)
+        st.session_state.pop("admin_token", None)
         st.rerun()
 
     chat_area = st.container()
